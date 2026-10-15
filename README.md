@@ -3,7 +3,7 @@ Comparing the interpretability of black-box models used for anonymous fake accou
 
 ## Status
 1. **Synthetic data with known ground truth** (done): `anonsynth/`, documented in [docs/synthetic_data.md](docs/synthetic_data.md)
-2. Fit and evaluate 29 models on the synthetic data: [notebooks/01_fit_models.ipynb](notebooks/01_fit_models.ipynb) (written, **not yet run**; under review)
+2. Fit and evaluate 28 models on the synthetic data: [notebooks/01_fit_models.ipynb](notebooks/01_fit_models.ipynb) (written, **not yet run**; under review)
 3. Explainability methods applied to the stored models (next)
 
 ## Quick start
