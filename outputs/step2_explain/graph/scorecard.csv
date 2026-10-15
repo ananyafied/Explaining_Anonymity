@@ -1,0 +1,86 @@
+group,model,method,criterion,value,ci_low,ci_high,n,note
+gnn,gat,GNNExplainer,correctness_ring_edge_auc,0.5593665474874814,0.40529336734693877,0.6941718995290425,4,chance = 0.5; trolls only
+gnn,gat,GNNExplainer,correctness_own_feature_rank,0.016362200607009738,-0.08497129156262496,0.13333237949472973,12,Spearman of own-feature importance with the planted contributions
+gnn,gat,GNNExplainer,faithfulness,0.23239681416031974,0.11899926455000769,0.3496438266674809,12,
+gnn,gat,GNNExplainer,seconds_per_explanation,0.09819549322128296,,,1,
+gnn,gat,Integrated Gradients,correctness_ring_edge_auc,0.5122940129311301,0.43730974485284835,0.5732576764405143,4,chance = 0.5; trolls only
+gnn,gat,Integrated Gradients,correctness_own_feature_rank,0.4313424228898914,0.35161538258273956,0.5043716701774305,12,Spearman of own-feature importance with the planted contributions
+gnn,gat,Integrated Gradients,faithfulness,0.3778624539795188,0.22707525594581457,0.5294382494736285,12,
+gnn,gat,Integrated Gradients,seconds_per_explanation,0.09921282529830933,,,1,
+gnn,gat,GNNExplainer vs Integrated Gradients,agreement_spearman,0.4853199165570685,0.4361671546137716,0.5314150306975073,12,
+gnn,gat,GNNExplainer vs Integrated Gradients,agreement_top3,0.3333333333333333,0.19444444444444442,0.47222222222222215,12,
+gnn,gat,GNNExplainer vs Integrated Gradients,agreement_own_features,0.2878787878787879,0.1707022144522145,0.41204836829836833,12,
+gnn,gat,GNNExplainer,stability_noise,0.9969363922231517,0.9961813535524205,0.9977998131326262,6,
+gnn,gat,GNNExplainer,repeatability_seed,0.7756899424313567,0.7383882805034944,0.8133685059270575,6,1.0 expected for a deterministic method
+gnn,gat,Integrated Gradients,stability_noise,0.9883927746727957,0.9859455134915265,0.9907501073267211,6,
+gnn,gat,Integrated Gradients,repeatability_seed,1.0,0.9999999999999999,1.0,6,1.0 expected for a deterministic method
+gnn,graphsage,GNNExplainer,correctness_ring_edge_auc,0.4968168867305883,0.36924655803966155,0.6243872154215152,4,chance = 0.5; trolls only
+gnn,graphsage,GNNExplainer,correctness_own_feature_rank,0.019748612493755122,-0.11562776655015904,0.14043862324833029,12,Spearman of own-feature importance with the planted contributions
+gnn,graphsage,GNNExplainer,faithfulness,0.2528712592465095,0.1466545112169672,0.4145839817784787,12,
+gnn,graphsage,GNNExplainer,seconds_per_explanation,0.045112391312917076,,,1,
+gnn,graphsage,Integrated Gradients,correctness_ring_edge_auc,0.5464561741745829,0.46927330543369217,0.6442238620013763,4,chance = 0.5; trolls only
+gnn,graphsage,Integrated Gradients,correctness_own_feature_rank,0.5563209609142011,0.4681517695234066,0.6385122405915266,12,Spearman of own-feature importance with the planted contributions
+gnn,graphsage,Integrated Gradients,faithfulness,0.3951205544602345,0.2205627124139196,0.584050810254005,12,
+gnn,graphsage,Integrated Gradients,seconds_per_explanation,0.036587158838907875,,,1,
+gnn,graphsage,GNNExplainer vs Integrated Gradients,agreement_spearman,0.4611658248876309,0.4134597909311902,0.5082322744244868,12,
+gnn,graphsage,GNNExplainer vs Integrated Gradients,agreement_top3,0.49999999999999994,0.3611111111111111,0.638888888888889,12,
+gnn,graphsage,GNNExplainer vs Integrated Gradients,agreement_own_features,0.30244755244755256,0.16015442890442894,0.44064685314685315,12,
+gnn,graphsage,GNNExplainer,stability_noise,0.9948229130572214,0.991453639995083,0.9971525843237526,6,
+gnn,graphsage,GNNExplainer,repeatability_seed,0.7461103895202994,0.6888707521303669,0.8004693560294115,6,1.0 expected for a deterministic method
+gnn,graphsage,Integrated Gradients,stability_noise,0.9910661291715135,0.9877181271327781,0.9934957895170777,6,
+gnn,graphsage,Integrated Gradients,repeatability_seed,1.0,0.9999999999999999,1.0,6,1.0 expected for a deterministic method
+gnn,rgcn,GNNExplainer,correctness_ring_edge_auc,0.5050431538148703,0.37766436150056837,0.637273915294432,4,chance = 0.5; trolls only
+gnn,rgcn,GNNExplainer,correctness_own_feature_rank,0.04650578298677354,-0.09490555439203655,0.1921540874604631,12,Spearman of own-feature importance with the planted contributions
+gnn,rgcn,GNNExplainer,faithfulness,0.2561055835813197,0.1500151107194804,0.40583623407294656,12,
+gnn,rgcn,GNNExplainer,seconds_per_explanation,0.04856101671854655,,,1,
+gnn,rgcn,Integrated Gradients,correctness_ring_edge_auc,0.5516477932010688,0.4775459454338765,0.6381290791750944,4,chance = 0.5; trolls only
+gnn,rgcn,Integrated Gradients,correctness_own_feature_rank,0.5452943476195297,0.45984062098051026,0.6258913515494311,12,Spearman of own-feature importance with the planted contributions
+gnn,rgcn,Integrated Gradients,faithfulness,0.2983945312269791,0.1620457128641847,0.4514407711162479,12,
+gnn,rgcn,Integrated Gradients,seconds_per_explanation,0.046807567278544106,,,1,
+gnn,rgcn,GNNExplainer vs Integrated Gradients,agreement_spearman,0.4504805337194726,0.3926881203729309,0.5075260958075907,12,
+gnn,rgcn,GNNExplainer vs Integrated Gradients,agreement_top3,0.3333333333333333,0.19444444444444445,0.47222222222222215,12,
+gnn,rgcn,GNNExplainer vs Integrated Gradients,agreement_own_features,0.305944055944056,0.1497668997668998,0.4522727272727274,12,
+gnn,rgcn,GNNExplainer,stability_noise,0.9965860990913571,0.995521182660304,0.9972924397693258,6,
+gnn,rgcn,GNNExplainer,repeatability_seed,0.7471552061497325,0.6768795001945693,0.8069047263375025,6,1.0 expected for a deterministic method
+gnn,rgcn,Integrated Gradients,stability_noise,0.9886131778493046,0.9832285584628684,0.992647544798032,6,
+gnn,rgcn,Integrated Gradients,repeatability_seed,1.0,0.9999999999999999,1.0,6,1.0 expected for a deterministic method
+structure_only,node2vec_logreg,SHAP,faithfulness,0.5184974734168778,0.27139260526416614,0.7768766855747915,12,
+structure_only,node2vec_logreg,SHAP,seconds_per_explanation,0.008212924003601074,,,1,
+structure_only,node2vec_logreg,SHAP,stability_noise,0.7017186793306197,0.5171845318860244,0.8792407281772953,6,
+structure_only,node2vec_logreg,SHAP,repeatability_seed,0.6976641109346547,0.6041929889430316,0.779965581725798,6,
+structure_only,node2vec_logreg,LIME,faithfulness,0.44847711200984897,0.18281026409237355,0.8121481432812666,12,
+structure_only,node2vec_logreg,LIME,seconds_per_explanation,0.005333006381988525,,,1,
+structure_only,node2vec_logreg,LIME,stability_noise,0.6461999022482894,0.4611192570869991,0.8355327468230693,6,
+structure_only,node2vec_logreg,LIME,repeatability_seed,0.430596285434995,0.30864186217008793,0.5636210899315737,6,
+structure_only,node2vec_logreg,SHAP vs LIME,agreement_spearman,0.43748905582253633,0.3540674642396977,0.5304086801085033,12,
+structure_only,node2vec_logreg,SHAP vs LIME,agreement_top5,0.6499999999999999,0.5,0.7999999999999999,12,
+structure_only,deepwalk_logreg,SHAP,faithfulness,0.6708143594793813,0.3785756909901394,0.9595605584963259,12,
+structure_only,deepwalk_logreg,SHAP,seconds_per_explanation,0.006546914577484131,,,1,
+structure_only,deepwalk_logreg,SHAP,stability_noise,0.689505027170178,0.5152462482329079,0.864246947082768,6,
+structure_only,deepwalk_logreg,SHAP,repeatability_seed,0.4884488428742975,0.4187697874265038,0.5521806918995371,6,
+structure_only,deepwalk_logreg,LIME,faithfulness,0.4987267264003507,0.29213239877293734,0.6945424989210938,12,
+structure_only,deepwalk_logreg,LIME,seconds_per_explanation,0.005243758360544841,,,1,
+structure_only,deepwalk_logreg,LIME,stability_noise,0.6917766373411535,0.5565111803519062,0.815991568914956,6,
+structure_only,deepwalk_logreg,LIME,repeatability_seed,0.5026881720430106,0.354594330400782,0.6395298753665688,6,
+structure_only,deepwalk_logreg,SHAP vs LIME,agreement_spearman,0.45495387542624366,0.40470958232099685,0.5110820523866473,12,
+structure_only,deepwalk_logreg,SHAP vs LIME,agreement_top5,0.4833333333333334,0.38333333333333336,0.5833333333333334,12,
+structure_only,label_spreading,Seed contribution,correctness_same_ring_top3,0.3333333333333333,0.3333333333333333,0.3333333333333333,3,trolls with a same-ring seed in the pool; chance = same-ring share of the pool
+structure_only,label_spreading,Seed contribution,faithfulness,0.4660767538477507,0.24613593154359845,0.7362901259936719,9,
+structure_only,label_spreading,Seed contribution,seconds_per_explanation,0.0011036925845676,,,1,
+structure_only,label_spreading,Leave-one-seed-out,correctness_same_ring_top3,0.3333333333333333,0.3333333333333333,0.3333333333333333,3,trolls with a same-ring seed in the pool; chance = same-ring share of the pool
+structure_only,label_spreading,Leave-one-seed-out,faithfulness,0.4660767538477507,0.24613593154359845,0.7362901259936719,9,
+structure_only,label_spreading,Leave-one-seed-out,seconds_per_explanation,0.0011036925845676,,,1,
+structure_only,label_spreading,contribution vs leave-one-out,agreement_spearman,0.9999011247064639,0.9997033741193919,1.0,9,
+structure_only,label_spreading,contribution vs leave-one-out,agreement_top3,1.0,1.0,1.0,9,
+structure_only,label_spreading,Seed contribution,stability_drop_item,0.9989326765188832,0.99679802955665,0.9999999999999999,6,drop one seed outside the top 2; both methods are deterministic
+structure_only,label_spreading,Leave-one-seed-out,stability_drop_item,0.9991789819376025,0.9975369458128077,0.9999999999999999,6,drop one seed outside the top 2; both methods are deterministic
+structure_only,belief_propagation,Incoming messages,correctness_ring_edge_auc,0.6785714285714287,0.3333333333333333,0.9523809523809524,3,chance = 0.5; trolls only; AUC over the edges at the account
+structure_only,belief_propagation,Incoming messages,faithfulness,0.05440978313144784,0.00793130550759896,0.13274747852903174,9,
+structure_only,belief_propagation,Incoming messages,seconds_per_explanation,1.1313514444563124,,,1,
+structure_only,belief_propagation,Leave-one-edge-out,correctness_ring_edge_auc,0.6785714285714287,0.3333333333333333,0.9523809523809524,3,chance = 0.5; trolls only; AUC over the edges at the account
+structure_only,belief_propagation,Leave-one-edge-out,faithfulness,0.05440978313144784,0.00793130550759896,0.13274747852903174,9,
+structure_only,belief_propagation,Leave-one-edge-out,seconds_per_explanation,1.1313514444563124,,,1,
+structure_only,belief_propagation,messages vs leave-one-out,agreement_spearman,1.0,1.0,1.0,9,
+structure_only,belief_propagation,messages vs leave-one-out,agreement_top3,1.0,1.0,1.0,9,
+structure_only,belief_propagation,Incoming messages,stability_drop_item,1.0,1.0,1.0,6,drop one incident edge outside the top 2; both methods are deterministic
+structure_only,belief_propagation,Leave-one-edge-out,stability_drop_item,1.0,1.0,1.0,6,drop one incident edge outside the top 2; both methods are deterministic

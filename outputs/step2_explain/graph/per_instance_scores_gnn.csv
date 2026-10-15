@@ -1,0 +1,73 @@
+model,method,account_id,kind,ring_edge_auc,faithfulness
+gat,GNNExplainer,1316,human,,0.6038959519630946
+gat,GNNExplainer,2556,human,,0.07635843226366251
+gat,GNNExplainer,4226,human,,0.663268285191294
+gat,GNNExplainer,3238,human,,0.22807154435156482
+gat,GNNExplainer,32,bot,,0.4052123887373986
+gat,GNNExplainer,3889,bot,,0.01395750893837574
+gat,GNNExplainer,716,bot,,0.1381690401641746
+gat,GNNExplainer,2903,bot,,0.12423153325218968
+gat,GNNExplainer,3439,troll,0.6836734693877551,0.0023489085203688216
+gat,GNNExplainer,4741,troll,0.7046703296703297,0.0820169642300946
+gat,GNNExplainer,2449,troll,0.3125,0.11314599165611731
+gat,GNNExplainer,2776,troll,0.5366223908918407,0.33808522065550073
+gat,Integrated Gradients,1316,human,,0.8863542591779643
+gat,Integrated Gradients,2556,human,,0.4957122298185958
+gat,Integrated Gradients,4226,human,,0.7234320214404235
+gat,Integrated Gradients,3238,human,,0.30392555704546825
+gat,Integrated Gradients,32,bot,,0.14425072333583244
+gat,Integrated Gradients,3889,bot,,0.10663111445302252
+gat,Integrated Gradients,716,bot,,0.3114872920561696
+gat,Integrated Gradients,2903,bot,,0.0423013567047259
+gat,Integrated Gradients,3439,troll,0.5214937038645244,0.017075878182634383
+gat,Integrated Gradients,4741,troll,0.5311355311355311,0.32991469932025536
+gat,Integrated Gradients,2449,troll,0.40603448275862075,0.7567106846222614
+gat,Integrated Gradients,2776,troll,0.5905123339658443,0.41655363159687253
+graphsage,GNNExplainer,1316,human,,1.0531132348945522
+graphsage,GNNExplainer,2556,human,,0.16658180071001186
+graphsage,GNNExplainer,4226,human,,0.2028709112314432
+graphsage,GNNExplainer,3238,human,,0.13307698377582036
+graphsage,GNNExplainer,32,bot,,0.1394926475256243
+graphsage,GNNExplainer,3889,bot,,0.19353286941155556
+graphsage,GNNExplainer,716,bot,,0.3994617658559741
+graphsage,GNNExplainer,2903,bot,,0.1855895991623849
+graphsage,GNNExplainer,3439,troll,0.6973512809379071,0.1820230311107696
+graphsage,GNNExplainer,4741,troll,0.391941391941392,0.21355836183612661
+graphsage,GNNExplainer,2449,troll,0.3465517241379311,0.03015528737659864
+graphsage,GNNExplainer,2776,troll,0.5514231499051233,0.1349986180672524
+graphsage,Integrated Gradients,1316,human,,1.001914878175777
+graphsage,Integrated Gradients,2556,human,,0.219378821488166
+graphsage,Integrated Gradients,4226,human,,0.7568631407344611
+graphsage,Integrated Gradients,3238,human,,0.09176883122641953
+graphsage,Integrated Gradients,32,bot,,0.23793726741424615
+graphsage,Integrated Gradients,3889,bot,,0.0440242680335338
+graphsage,Integrated Gradients,716,bot,,0.4884986095980084
+graphsage,Integrated Gradients,2903,bot,,0.2098217520208098
+graphsage,Integrated Gradients,3439,troll,0.5503690838037343,0.026150078584944933
+graphsage,Integrated Gradients,4741,troll,0.5013736263736264,0.6305910065717202
+graphsage,Integrated Gradients,2449,troll,0.4422413793103448,0.8923586727606665
+graphsage,Integrated Gradients,2776,troll,0.6918406072106262,0.14213932691405948
+rgcn,GNNExplainer,1316,human,,0.9421899256117112
+rgcn,GNNExplainer,2556,human,,0.24961721088090075
+rgcn,GNNExplainer,4226,human,,0.24167262314511676
+rgcn,GNNExplainer,3238,human,,0.11850899126110674
+rgcn,GNNExplainer,32,bot,,0.1499149574024545
+rgcn,GNNExplainer,3889,bot,,0.051353385502660664
+rgcn,GNNExplainer,716,bot,,0.4221041446668042
+rgcn,GNNExplainer,2903,bot,,0.1301100046758322
+rgcn,GNNExplainer,3439,troll,0.7164567954841511,0.21161453413874862
+rgcn,GNNExplainer,4741,troll,0.39972527472527475,0.34014304795657013
+rgcn,GNNExplainer,2449,troll,0.3556034482758621,0.19746880422564653
+rgcn,GNNExplainer,2776,troll,0.5483870967741935,0.018569373508283388
+rgcn,Integrated Gradients,1316,human,,0.13139721236536953
+rgcn,Integrated Gradients,2556,human,,0.27664221461990984
+rgcn,Integrated Gradients,4226,human,,0.7752508123501393
+rgcn,Integrated Gradients,3238,human,,0.02235755122184462
+rgcn,Integrated Gradients,32,bot,,0.16887846198498457
+rgcn,Integrated Gradients,3889,bot,,0.04761578863163619
+rgcn,Integrated Gradients,716,bot,,0.4258934164326238
+rgcn,Integrated Gradients,2903,bot,,0.09709320321065662
+rgcn,Integrated Gradients,3439,troll,0.5668693009118542,0.02966213018334819
+rgcn,Integrated Gradients,4741,troll,0.4986263736263737,0.667177620897366
+rgcn,Integrated Gradients,2449,troll,0.45646551724137935,0.6672973737477103
+rgcn,Integrated Gradients,2776,troll,0.684629981024668,0.27146858907816096
