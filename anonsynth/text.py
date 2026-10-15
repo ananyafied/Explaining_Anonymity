@@ -36,17 +36,23 @@ def make_posts(account_ids, kind, split, cfg, rng: np.random.Generator) -> pd.Da
         else:
             p_spur = cfg.spurious_prob_authentic
         for _ in range(cfg.posts_per_account):
-            tokens = list(rng.choice(NEUTRAL, size=int(rng.integers(6, 15))))
+            n_tok = int(rng.integers(6, 15))
+            tokens = list(rng.choice(NEUTRAL, size=n_tok))
+            # planted tokens REPLACE neutral words (never inserted), so post length
+            # carries no information about the class
+            slots = list(rng.permutation(n_tok))
             planted = []
             if rng.random() < p_marker:
                 m = str(rng.choice(markers))
-                tokens.insert(int(rng.integers(0, len(tokens) + 1)), m)
+                tokens[slots.pop()] = m
                 planted.append(m)
             has_spur = bool(rng.random() < p_spur)
             if has_spur:
-                tokens.insert(int(rng.integers(0, len(tokens) + 1)), SPURIOUS_TOKEN)
+                tokens[slots.pop()] = SPURIOUS_TOKEN
             rows.append((pid, aid, " ".join(tokens), "|".join(planted), has_spur))
             pid += 1
-    return pd.DataFrame(
+    df = pd.DataFrame(
         rows, columns=["post_id", "account_id", "text", "planted_markers", "has_spurious_token"]
     )
+    # model-facing posts vs. answer key (what was planted in each post)
+    return df[["post_id", "account_id", "text"]], df[["post_id", "planted_markers", "has_spurious_token"]]

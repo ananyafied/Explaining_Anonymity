@@ -1,4 +1,4 @@
-"""Interaction graph: sparse background, bot follow edges, dense troll rings."""
+"""Interaction graph (undirected): sparse background, bot follow edges, dense troll rings."""
 from __future__ import annotations
 
 import numpy as np
@@ -51,8 +51,17 @@ def make_edges(kind: np.ndarray, ring_id: np.ndarray, cfg, rng: np.random.Genera
     edges = pd.concat(parts, ignore_index=True)
     lo = np.minimum(edges["source"], edges["target"])
     hi = np.maximum(edges["source"], edges["target"])
-    # bot_follow edges are directed; others are treated as undirected for de-duplication
-    directed = edges["edge_type"] == "bot_follow"
-    key = np.where(directed, edges["source"] * n + edges["target"], lo * n + hi)
-    edges = edges.loc[~pd.Series(key).duplicated().to_numpy()].reset_index(drop=True)
-    return edges
+    # the graph is undirected: de-duplicate on the unordered pair
+    edges = edges.loc[~pd.Series(lo * n + hi).duplicated().to_numpy()]
+    # Edges were generated in blocks by type and ring edges always have source < target, so
+    # row order and direction would reveal the edge type. Shuffle rows and randomize direction.
+    edges = edges.sample(frac=1.0, random_state=int(rng.integers(0, 2**31))).reset_index(drop=True)
+    swap = rng.random(len(edges)) < 0.5
+    out = pd.DataFrame(
+        {
+            "source": np.where(swap, edges["target"], edges["source"]),
+            "target": np.where(swap, edges["source"], edges["target"]),
+        }
+    )
+    # model-facing edge list vs. answer key (edge_type, same row order)
+    return out, edges[["edge_type"]]

@@ -21,8 +21,10 @@ class SyntheticDataset:
     config: SynthConfig
     accounts: pd.DataFrame  # account_id, features, label, split
     truth: pd.DataFrame  # account_id, kind, ring_id, author_id, true_logit, true_prob, ...
-    posts: pd.DataFrame
-    edges: pd.DataFrame
+    posts: pd.DataFrame  # post_id, account_id, text
+    posts_truth: pd.DataFrame  # post_id, planted_markers, has_spurious_token  (answer key)
+    edges: pd.DataFrame  # source, target (undirected, shuffled)
+    edges_truth: pd.DataFrame  # edge_type, same row order as edges  (answer key)
     seq_counts: np.ndarray  # (n_accounts, n_hours)
     seq_masks: np.ndarray  # (n_accounts, n_hours) bool
     style: pd.DataFrame  # account_id + style_XX
@@ -43,6 +45,8 @@ class SyntheticDataset:
             counts=self.seq_counts,
         )
         self.truth.to_csv(out / "truth" / "accounts_truth.csv", index=False)
+        self.posts_truth.to_csv(out / "truth" / "posts_truth.csv", index=False)
+        self.edges_truth.to_csv(out / "truth" / "edges_truth.csv", index=False)
         np.savez_compressed(out / "truth" / "sequence_masks.npz", masks=self.seq_masks)
         with open(out / "truth" / "ground_truth.json", "w") as f:
             json.dump(self.ground_truth, f, indent=2)
@@ -87,9 +91,9 @@ def generate(cfg: SynthConfig | None = None) -> SyntheticDataset:
 
     # 4. modalities
     account_ids = np.arange(n)
-    posts = text.make_posts(account_ids, kind, split, cfg, r_text)
+    posts, posts_truth = text.make_posts(account_ids, kind, split, cfg, r_text)
     ring_id = graph.assign_rings(kind, cfg.ring_size, r_graph)
-    edges = graph.make_edges(kind, ring_id, cfg, r_graph)
+    edges, edges_truth = graph.make_edges(kind, ring_id, cfg, r_graph)
     counts, masks, seq_info = sequences.make_sequences(
         kind, feats["posts_per_day"].to_numpy(), ring_id, cfg, r_seq
     )
@@ -136,7 +140,8 @@ def generate(cfg: SynthConfig | None = None) -> SyntheticDataset:
         },
         "graph": {
             "n_rings": int(ring_id.max() + 1) if (ring_id >= 0).any() else 0,
-            "note": "ring_id in truth/accounts_truth.csv; edge_type=='ring' marks planted edges",
+            "note": "ring_id in truth/accounts_truth.csv; truth/edges_truth.csv gives edge_type"
+            " (ring/bot_follow/background) in the same row order as edges.csv",
         },
         "sequences": seq_info,
         "style": {"informative_columns": informative_style_cols},
@@ -153,7 +158,9 @@ def generate(cfg: SynthConfig | None = None) -> SyntheticDataset:
         accounts=accounts,
         truth=truth,
         posts=posts,
+        posts_truth=posts_truth,
         edges=edges,
+        edges_truth=edges_truth,
         seq_counts=counts,
         seq_masks=masks,
         style=style_df,

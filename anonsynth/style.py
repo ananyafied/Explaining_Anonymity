@@ -67,4 +67,9 @@ def make_pairs(author_id: np.ndarray, split: np.ndarray, rng: np.random.Generato
                     break
     rows.extend(neg)
     pairs = pd.DataFrame(rows, columns=["account_id_a", "account_id_b", "same_author", "split"])
+    # positives were built with id_a < id_b; randomize the order so it carries no information
+    swap = rng.random(len(pairs)) < 0.5
+    a = np.where(swap, pairs["account_id_b"], pairs["account_id_a"])
+    b = np.where(swap, pairs["account_id_a"], pairs["account_id_b"])
+    pairs["account_id_a"], pairs["account_id_b"] = a, b
     return pairs.sample(frac=1.0, random_state=int(rng.integers(0, 2**31))).reset_index(drop=True)

@@ -16,11 +16,13 @@ The output is deterministic given the seed. Defaults live in `anonsynth/config.p
 | File | Contents |
 |---|---|
 | `accounts.csv` | `account_id`, 12 tabular features, `label` (1 = bot or troll), `split` |
-| `posts.csv` | 6 short posts per account; `planted_markers` and `has_spurious_token` say what was planted |
-| `edges.csv` | `source`, `target`, `edge_type` (`background`, `bot_follow`, `ring`) |
+| `posts.csv` | `post_id`, `account_id`, `text` (6 short posts per account) |
+| `edges.csv` | `source`, `target`: undirected, rows shuffled, direction randomized |
 | `sequences.npz` | `counts`: hourly post counts, shape (accounts, 168) |
 | `style_features.csv` | 16 stylometric columns per account |
 | `pairs.csv` | account pairs with `same_author` (50/50), for Siamese/linking models |
+| `truth/posts_truth.csv` | per post: `planted_markers`, `has_spurious_token` |
+| `truth/edges_truth.csv` | per edge, same row order as `edges.csv`: `edge_type` (`background`, `bot_follow`, `ring`) |
 | `truth/accounts_truth.csv` | `kind` (human/bot/troll), `ring_id`, `author_id`, `true_logit`, `true_prob`, per-term logit contributions |
 | `truth/sequence_masks.npz` | boolean mask of the hours that carry the planted pattern |
 | `truth/ground_truth.json` | config, true formula, feature roles, marker tokens, ring windows, informative style columns |
@@ -62,7 +64,7 @@ leans on it will degrade on test, and a good explanation should show that it doe
 ### Graph (`edges.csv`)
 Trolls sit in coordinated rings of about 25 with dense internal edges (p = 0.25). Bots follow
 8 authentic accounts each. Everyone also has sparse background edges (mean degree about 6).
-Ring membership is in `truth/accounts_truth.csv`.
+The graph is undirected. Ring membership is in `truth/accounts_truth.csv` and edge types are in `truth/edges_truth.csv`.
 
 ### Sequences (`sequences.npz`)
 168 hourly counts. Humans: circadian rhythm. Bots: low flat background plus bursts every 6, 8
@@ -75,6 +77,16 @@ About 15% of accounts are a second account of an existing author. 6 of the 16 st
 author information, the other 10 are pure noise, and column order is shuffled (the informative
 columns are listed in `ground_truth.json`). Positive pairs are same-author accounts, negatives are
 random different-author accounts from the same split.
+
+## Leakage checks
+Model-facing files hold only what a real analyst could observe. `tests/test_leakage.py` enforces this:
+- an allowlist of columns per model-facing file (no answer columns can slip in);
+- edge row order and edge direction carry no information about edge type (edges are shuffled and
+  direction is randomized, because they are generated in blocks by type);
+- the order of the two accounts in a pair carries no information about `same_author`;
+- account ids, row order, post ids and post length carry no information about the label (planted
+  tokens replace neutral words, so they do not change post length);
+- decoy and noise features are uninformative, and the label rate is the same in every split.
 
 ## Splits
 `train` / `val` / `test` = 60 / 20 / 20, stratified on `label`. Linked accounts share their

@@ -57,7 +57,9 @@ def test_true_logit_terms_sum(ds):
 
 
 def test_text_markers_and_spurious_shift(ds):
-    posts = ds.posts.merge(ds.accounts[["account_id", "label", "split"]], on="account_id")
+    posts = ds.posts.merge(ds.posts_truth, on="post_id").merge(
+        ds.accounts[["account_id", "label", "split"]], on="account_id"
+    )
     has_marker = posts["planted_markers"] != ""
     assert has_marker[posts.label == 1].mean() > 5 * has_marker[posts.label == 0].mean()
     spur = posts.groupby(["split", "label"])["has_spurious_token"].mean()
@@ -70,14 +72,15 @@ def test_graph_rings_are_dense_and_only_trolls(ds):
     t = ds.truth
     assert (t.loc[t.ring_id >= 0, "kind"] == "troll").all()
     assert (t.loc[t.kind == "troll", "ring_id"] >= 0).all()
-    ring_edges = ds.edges[ds.edges.edge_type == "ring"]
+    is_ring = (ds.edges_truth.edge_type == "ring").to_numpy()
+    ring_edges = ds.edges[is_ring]
     assert (t.ring_id.to_numpy()[ring_edges.source] == t.ring_id.to_numpy()[ring_edges.target]).all()
     sizes = t[t.ring_id >= 0].groupby("ring_id").size()
     density = len(ring_edges) / (sizes * (sizes - 1) / 2).sum()
     assert 0.15 < density < 0.35
-    bg_density = (ds.edges.edge_type == "background").sum() / (len(t) * (len(t) - 1) / 2)
+    bg_density = (ds.edges_truth.edge_type == "background").sum() / (len(t) * (len(t) - 1) / 2)
     assert density > 50 * bg_density
-    assert not ds.edges[["source", "target"]].apply(lambda r: r.source == r.target, axis=1).any()
+    assert (ds.edges.source != ds.edges.target).all()
 
 
 def test_sequences_masks_mark_planted_bursts(ds):
@@ -118,7 +121,7 @@ def test_write_roundtrip(ds, tmp_path):
     for f in [
         "accounts.csv", "posts.csv", "edges.csv", "style_features.csv", "pairs.csv",
         "sequences.npz", "truth/accounts_truth.csv", "truth/sequence_masks.npz",
-        "truth/ground_truth.json",
+        "truth/ground_truth.json", "truth/posts_truth.csv", "truth/edges_truth.csv",
     ]:
         assert (tmp_path / f).exists(), f
     acc = pd.read_csv(tmp_path / "accounts.csv")
