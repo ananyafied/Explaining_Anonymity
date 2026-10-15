@@ -1,6 +1,6 @@
 # Step 2 plan: explaining the 28 fitted models
 
-**Status:** draft v2 (2026-10-15). Notebooks are written on the `step2-explainability` branch and have not yet been run end to end by the project owner.
+**Status:** draft v3 (2026-10-15). The six notebooks and the shared `xai_eval/` package are written on the `step2-explainability` branch. They were smoke-tested on a small sample (`QUICK = True`) in a Linux sandbox and have not yet been run in full by the project owner. Section 6 lists where the implementation differs from the plan above.
 
 Step 1 fitted 28 models (plus a baseline) on the synthetic data; results are in `outputs/step1_fit/`. Step 2 applies explainability methods to those models and compares how explainable each one is. Accuracy is not the focus.
 
@@ -96,3 +96,17 @@ Shared code lives in `xai_eval/` (data views and model reloading that mirror ste
 - **LIME and KernelSHAP are random and slow:** sample sizes are kept modest, and these methods are seeded.
 - **Near-chance and flawed models** cannot be meaningfully explained, so read their results with that in mind.
 - **Reloading models:** neural-network weights are saved without their class definitions, so `xai_eval/step1_models.py` must stay identical to the model definitions in the step-1 notebook.
+
+## 6. Implementation notes and deviations from the plan
+
+What was built: `xai_eval/` (data views, model reload, metrics, saving), `notebooks/02` to `07`, `requirements-xai.txt`. Each explanation notebook has a `QUICK` flag for a few-minute smoke test. Every notebook starts by reloading the step-1 models and asserting that they reproduce the stored predictions.
+
+**Things that differ from, or add to, what is written above**
+- **Repeatability control (added).** The stability test changes the input; a second test re-runs the same input with another random seed, so that sampling noise in KernelSHAP, LIME, GradientSHAP and GNNExplainer can be told apart from real instability.
+- **Reliance probes (added), one per group**, to read the explanations against what each model actually uses: shuffling the hours of a timeline; stripping the decoy hashtag or the marker words from posts; node degree and edge removal for the graph models; what the embedding dimensions encode (degree, ring membership).
+- **Profile stats.** TreeSHAP explains the forest in probability units and the two boosters in log-odds; KernelSHAP and LIME explain the probability (or anomaly score). The per-account answer key is the planted contribution of each feature; the interaction term is credited to both of its inputs.
+- **Timelines.** Classifiers are explained on the logit, the autoencoder on its reconstruction error. The "no activity" reference for Integrated Gradients and for deleting hours is a zero-count hour; GradientSHAP uses random training timelines as baselines. The shuffle probe showed that the models separate accounts by the distribution of hourly counts rather than by timing, so correctness is read as "credit goes to the burst hours" and not "the model understands periodicity".
+- **Text.** SHAP is KernelSHAP over the post's unique words (exact for short posts), not shap's partition explainer for text, so both methods use the same word-removal operation. doc2vec's inference is seeded by Python's per-process `hash()`; `xai_eval.loaders` replaces it with a fixed hash, so doc2vec is checked against step 1 by rank correlation (above 0.95), not exactly.
+- **Graph.** The GNN explanations run on the 3-hop neighbourhood (exact: the code asserts the logit equals the full-graph logit). GNNExplainer explains the logit; Integrated Gradients (PyG's Captum wrapper requires probabilities for binary tasks) explains the probability. Both are given a private copy of the model because a GNNExplainer run leaves state behind that breaks the next Captum call. Label spreading is explained in closed form (the 100-iteration step-1 run differs by about 1e-10). Label spreading and belief propagation use the first 30 accounts of each kind of the 50-per-kind sample, because belief propagation needs about ten re-runs per account. For these two models the agreement between the two methods is close to 1 by construction and carries little information.
+- **Multimodal.** The block Shapley values are exact (8 coalitions) and computed for all 1,000 test accounts instead of the 150-account sample. A missing block is replaced by the training average (profile stats, text embedding) or an empty graph; these off-distribution inputs limit how far the block explanations can be trusted.
+- **Scorecards.** Notebook 07 reads the saved `scorecard.csv` files; there is no composite score and no ranking across groups. Its pattern flags are relative to the group median.
